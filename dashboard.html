@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VerifyHub | Dashboard</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: { primary: '#0ea5e9', dark: '#0f172a' }
+                }
+            }
+        }
+    </script>
+    <link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body class="bg-dark text-slate-200 min-h-screen relative overflow-hidden flex flex-col pt-20">
+    <!-- Abstract Background Elements -->
+    <div class="absolute top-[-10%] left-[-10%] w-[40%] h-[40%] bg-primary/20 rounded-full blur-[120px] pointer-events-none z-0"></div>
+    <div class="absolute bottom-[-10%] right-[-10%] w-[30%] h-[30%] bg-indigo-500/20 rounded-full blur-[100px] pointer-events-none z-0"></div>
+
+    <!-- Navigation -->
+    <nav class="fixed top-0 w-full z-50 glass border-b border-slate-700/50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-20 items-center">
+                <div class="flex items-center gap-3">
+                    <div class="h-10 w-10 rounded-xl bg-primary flex items-center justify-center shadow-lg shadow-sky-500/50">
+                        <svg class="h-6 w-6 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
+                        </svg>
+                    </div>
+                    <span class="text-2xl font-bold tracking-wider">Verify<span class="text-primary">Hub</span></span>
+                </div>
+                
+                <!-- Desktop Menu -->
+                <div class="hidden md:flex items-center space-x-8">
+                    <a href="dashboard.html" class="text-white font-medium border-b-2 border-primary pb-1">Dashboard</a>
+                    <a href="vehicle.html" class="text-slate-400 hover:text-white transition-colors">Vehicle</a>
+                    <a href="property.html" class="text-slate-400 hover:text-white transition-colors">Property</a>
+                    <button onclick="handleLogout()" class="px-5 py-2 rounded-lg bg-slate-800 hover:bg-slate-700 text-white border border-slate-700 transition flex items-center gap-2">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"></path></svg>
+                        Logout
+                    </button>
+                </div>
+
+                <!-- Mobile menu button -->
+                <div class="md:hidden flex items-center">
+                    <button onclick="toggleMobileMenu()" class="text-slate-300 hover:text-white focus:outline-none">
+                        <svg class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+                        </svg>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Mobile Menu -->
+        <div id="mobile-menu" class="hidden md:hidden glass border-t border-slate-700">
+            <div class="px-2 pt-2 pb-3 space-y-1 sm:px-3">
+                <a href="dashboard.html" class="block px-3 py-2 rounded-md text-base font-medium text-white bg-slate-800">Dashboard</a>
+                <a href="vehicle.html" class="block px-3 py-2 rounded-md text-base font-medium text-slate-300 hover:text-white hover:bg-slate-700">Vehicle Verification</a>
+                <a href="property.html" class="block px-3 py-2 rounded-md text-base font-medium text-slate-300 hover:text-white hover:bg-slate-700">Property Verification</a>
+                <button onclick="handleLogout()" class="w-full text-left block px-3 py-2 rounded-md text-base font-medium text-red-400 hover:text-red-300 hover:bg-slate-700">Logout</button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="flex-1 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 w-full z-10">
+        
+        <div class="mb-12 page-enter">
+            <h1 class="text-4xl md:text-5xl font-bold mb-4">Welcome back, <span class="text-gradient">Agent</span></h1>
+            <p class="text-xl text-slate-400">Select a module to begin the verification process.</p>
+        </div>
+
+        <!-- Action Cards -->
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-16">
+            
+            <!-- Vehicle Card -->
+            <a href="vehicle.html" class="group block glass-card rounded-2xl overflow-hidden hover:scale-[1.02] transform transition-all duration-300 border border-slate-700 hover:border-primary/50 relative page-enter delay-150">
+                <div class="h-48 w-full bg-slate-800 relative overflow-hidden flex justify-center items-center">
+                    <img src="assets/images/vehicle_icon.png" alt="Vehicle" class="absolute w-full h-full object-cover opacity-60 group-hover:opacity-80 transition-opacity duration-500 group-hover:scale-105">
+                    <div class="absolute inset-0 bg-gradient-to-t from-slate-900 to-transparent"></div>
+                    <!-- Icon -->
+                    <div class="z-10 bg-slate-900/50 p-4 rounded-2xl backdrop-blur-md border border-slate-600 group-hover:border-primary transition-colors">
+                        <svg class="w-12 h-12 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7h12m0 0l-4-4m4 4l-4 4m0 6H4m0 0l4 4m-4-4l4-4"></path></svg>
+                    </div>
+                </div>
+                <div class="p-8">
+                    <h3 class="text-2xl font-bold mb-2 group-hover:text-primary transition-colors">Vehicle Verification</h3>
+                    <p class="text-slate-400 mb-6">Search and verify motor vehicle registration details, ownership history, and legal status.</p>
+                    <div class="flex items-center text-primary font-medium">
+                        Launch Module <svg class="w-5 h-5 ml-2 group-hover:translate-x-2 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>
+                    </div>
+                </div>
+            </a>
+
+            <!-- Property Card -->
+            <a href="property.html" class="group block glass-card rounded-2xl overflow-hidden hover:scale-[1.02] transform transition-all duration-300 border border-slate-700 hover:border-indigo-500/50 relative page-enter delay-300">
+                <div class="h-48 w-full bg-slate-800 relative overflow-hidden flex justify-center items-center">
+                    <img src="assets/images/property_icon.png" alt="Property" class="absolute w-full h-full object-cover opacity-60 group-hover:opacity-80 transition-opacity duration-500 group-hover:scale-105">
+                    <div class="absolute inset-0 bg-gradient-to-t from-slate-900 to-transparent"></div>
+                    <!-- Icon -->
+                    <div class="z-10 bg-slate-900/50 p-4 rounded-2xl backdrop-blur-md border border-slate-600 group-hover:border-indigo-400 transition-colors">
+                        <svg class="w-12 h-12 text-indigo-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"></path></svg>
+                    </div>
+                </div>
+                <div class="p-8">
+                    <h3 class="text-2xl font-bold mb-2 group-hover:text-indigo-400 transition-colors">Property Verification</h3>
+                    <p class="text-slate-400 mb-6">Validate land deeds, property ownership, assessing records, and mortgage encumbrances.</p>
+                    <div class="flex items-center text-indigo-400 font-medium">
+                        Launch Module <svg class="w-5 h-5 ml-2 group-hover:translate-x-2 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>
+                    </div>
+                </div>
+            </a>
+            
+        </div>
+
+        <!-- System Stats -->
+        <div class="page-enter delay-500">
+            <h2 class="text-2xl font-bold mb-6">System Statistics</h2>
+            <div class="grid grid-cols-2 lg:grid-cols-4 gap-4">
+                <div class="bg-slate-800/50 p-6 rounded-xl border border-slate-700">
+                    <p class="text-slate-400 text-sm mb-1">Today's Verifications</p>
+                    <h4 class="text-3xl font-bold text-white">1,492</h4>
+                    <span class="text-green-400 text-xs flex items-center mt-2"><svg class="w-3 h-3 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 10l7-7m0 0l7 7m-7-7v18"></path></svg> 12% vs yesterday</span>
+                </div>
+                <!-- Add similar blocks for other stats -->
+                 <div class="bg-slate-800/50 p-6 rounded-xl border border-slate-700">
+                    <p class="text-slate-400 text-sm mb-1">Active Alerts</p>
+                    <h4 class="text-3xl font-bold text-red-400">24</h4>
+                    <span class="text-red-400 text-xs flex items-center mt-2">Requires immediate action</span>
+                </div>
+                 <div class="bg-slate-800/50 p-6 rounded-xl border border-slate-700">
+                    <p class="text-slate-400 text-sm mb-1">Uptime</p>
+                    <h4 class="text-3xl font-bold text-white">99.9%</h4>
+                    <span class="text-slate-400 text-xs flex items-center mt-2">All systems operational</span>
+                </div>
+                 <div class="bg-slate-800/50 p-6 rounded-xl border border-slate-700">
+                    <p class="text-slate-400 text-sm mb-1">API Status</p>
+                    <h4 class="text-xl font-bold text-green-400 mt-2">Connected</h4>
+                    <div class="w-full bg-slate-700 h-1.5 rounded-full mt-3"><div class="bg-green-400 h-1.5 rounded-full w-[100%]"></div></div>
+                </div>
+            </div>
+        </div>
+
+    </main>
+
+    <script src="assets/js/script.js"></script>
+    <script>
+        // Optional auth check
+        checkAuth();
+    </script>
+</body>
+</html>

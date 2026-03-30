@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Property Verification | VerifyHub</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: { colors: { primary: '#6366f1', dark: '#0f172a' } }
+            }
+        }
+    </script>
+    <link rel="stylesheet" href="assets/css/style.css">
+    <style>
+        .map-bg {
+            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" opacity="0.05"><defs><pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse"><path d="M 40 0 L 0 0 0 40" fill="none" stroke="white" stroke-width="1"/></pattern></defs><rect width="100%" height="100%" fill="url(%23grid)" /></svg>');
+        }
+    </style>
+</head>
+<body class="bg-dark text-slate-200 min-h-screen relative overflow-hidden flex flex-col pt-20 map-bg">
+    
+    <!-- Background Decor (Indigo for Property) -->
+    <div class="absolute top-1/4 right-1/4 w-96 h-96 bg-primary/10 rounded-full blur-[100px] pointer-events-none"></div>
+
+    <!-- Top Navbar -->
+    <nav class="fixed top-0 w-full z-50 glass border-b border-slate-700/50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-20 items-center">
+                <div class="flex items-center gap-3 cursor-pointer" onclick="window.location.href='dashboard.html'">
+                    <div class="h-10 w-10 rounded-xl bg-sky-500 flex items-center justify-center">
+                        <svg class="h-6 w-6 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
+                        </svg>
+                    </div>
+                    <span class="text-2xl font-bold tracking-wider">Verify<span class="text-sky-500">Hub</span></span>
+                </div>
+                
+                <div class="hidden md:flex items-center space-x-8">
+                    <a href="dashboard.html" class="text-slate-400 hover:text-white transition-colors">Dashboard</a>
+                    <a href="vehicle.html" class="text-slate-400 hover:text-white transition-colors">Vehicle</a>
+                    <a href="property.html" class="text-white font-medium border-b-2 border-primary pb-1">Property</a>
+                    <button onclick="handleLogout()" class="px-5 py-2 rounded-lg bg-slate-800 border border-slate-700 hover:bg-slate-700 text-white transition">Logout</button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="flex-1 max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-10 w-full z-10">
+        
+        <!-- Header -->
+        <div class="mb-10 text-center page-enter">
+            <div class="inline-block p-4 bg-slate-800/50 rounded-2xl border border-slate-700 mb-4">
+                <svg class="w-10 h-10 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"></path></svg>
+            </div>
+            <h1 class="text-3xl md:text-4xl font-bold mb-3">Property Verification (e-Register)</h1>
+            <p class="text-slate-400 max-w-2xl mx-auto">Verify land deeds, title plans, block numbers, and owner demographics via National e-Land Registry records.</p>
+        </div>
+
+        <!-- Search Box -->
+        <div class="glass-card rounded-2xl p-6 md:p-8 mb-10 w-full max-w-3xl mx-auto border border-slate-700 page-enter delay-150 relative z-10">
+            <!-- Tabs -->
+            <div class="flex border-b border-slate-700 mb-6">
+                <button class="pb-3 px-4 text-primary border-b-2 border-primary font-medium focus:outline-none">By Deed Number</button>
+                <button class="pb-3 px-4 text-slate-400 hover:text-slate-200 border-b-2 border-transparent font-medium focus:outline-none transition-colors">By Title Registration</button>
+                <button class="pb-3 px-4 text-slate-400 hover:text-slate-200 border-b-2 border-transparent font-medium focus:outline-none transition-colors">By Assessment No</button>
+            </div>
+
+            <form id="propertySearchForm" onsubmit="handlePropertySearch(event)" class="flex flex-col md:flex-row gap-4">
+                <div class="flex-1 relative">
+                    <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+                        <svg class="h-6 w-6 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
+                    </div>
+                    <input type="text" id="deedNo" class="w-full bg-slate-900 border border-slate-600 rounded-xl py-4 pl-12 pr-4 text-white text-xl tracking-wider focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary shadow-inner" placeholder="E.g. D-45902 / Vol 22" required>
+                </div>
+                <button type="submit" class="bg-primary hover:bg-indigo-400 text-white font-bold py-4 px-8 rounded-xl shadow-lg shadow-indigo-500/30 transition-all font-medium whitespace-nowrap btn-glow flex justify-center items-center">
+                    <span id="p-btn-text">Extract Title</span>
+                    <div id="p-btn-loader" class="loader hidden" style="border-top-color: white;"></div>
+                </button>
+            </form>
+        </div>
+
+        <!-- Results Area (Hidden by default) -->
+        <div id="resultsArea" class="hidden opacity-0 transform translate-y-10 transition-all duration-500 ease-out z-10 relative">
+            
+            <div class="flex items-center gap-3 mb-6">
+                <!-- Status Badge -->
+                <div class="px-4 py-2 bg-slate-800 rounded-full border border-slate-600 flex items-center shadow-lg">
+                    <div class="w-3 h-3 rounded-full bg-green-500 mr-2 shadow-[0_0_10px_#22c55e]"></div>
+                    <span class="font-bold text-white tracking-wide">AUTHENTIC DOCUMENT DETECTED</span>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                
+                <!-- Deed Information -->
+                <div class="glass-card rounded-2xl p-6 border border-slate-700 flex flex-col justify-between">
+                    <div>
+                        <h3 class="text-xl font-semibold mb-6 flex items-center text-primary"><svg class="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"></path></svg> Cadastral Information</h3>
+                        
+                        <div class="space-y-4">
+                            <div class="flex justify-between border-b border-slate-700/50 pb-2">
+                                <span class="text-slate-400">Land Name</span>
+                                <span class="text-white font-medium" id="resLandName">Kurunduwatta Estate</span>
+                            </div>
+                            <div class="flex justify-between border-b border-slate-700/50 pb-2">
+                                <span class="text-slate-400">Extent</span>
+                                <span class="text-white font-medium">0A - 20R - 15P</span>
+                            </div>
+                            <div class="flex justify-between border-b border-slate-700/50 pb-2">
+                                <span class="text-slate-400">Province & District</span>
+                                <span class="text-white font-medium">Western / Colombo</span>
+                            </div>
+                            <div class="flex justify-between border-b border-slate-700/50 pb-2">
+                                <span class="text-slate-400">Title Plan (Surveyor)</span>
+                                <span class="text-white font-medium">TP-9022 / Mr. A. Fernando</span>
+                            </div>
+                            <div class="flex justify-between border-b border-slate-700/50 pb-2">
+                                <span class="text-slate-400">Local Authority</span>
+                                <span class="text-white font-medium">Colombo Municipal Council</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Registration & Issues -->
+                <div class="glass-card rounded-2xl p-6 border border-slate-700 relative overflow-hidden">
+                    <div class="absolute -right-10 -bottom-10 opacity-10 pointer-events-none text-[150px]">
+                        ⚖️
+                    </div>
+
+                    <h3 class="text-xl font-semibold mb-6 flex items-center text-orange-400"><svg class="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg> Registry Status & Caveats</h3>
+                    
+                    <div class="space-y-5">
+                        <div class="p-4 bg-slate-800/80 rounded-xl border border-slate-600">
+                            <p class="text-slate-400 text-sm mb-1 uppercase tracking-wider">Current Owner(s)</p>
+                            <p class="font-bold text-white">S. M. D. Silva</p>
+                            <p class="text-sm text-slate-300">NIC: 84******12V</p>
+                        </div>
+
+                        <div>
+                            <p class="text-slate-400 text-sm mb-1">Mortgages / Encumbrances</p>
+                            <p class="font-semibold text-white px-3 py-1 bg-green-500/20 text-green-400 border border-green-500/30 rounded inline-block text-sm">Clear Title - No Mortgages Found</p>
+                        </div>
+                        
+                        <div>
+                            <p class="text-slate-400 text-sm mb-1">Caveats Filed</p>
+                            <p class="font-semibold text-white">None</p>
+                        </div>
+                        
+                        <div>
+                             <p class="text-slate-400 text-sm mb-1">Last Transaction Date</p>
+                            <p class="font-semibold text-white">12th August 2018</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+    </main>
+
+    <!-- Toast Notifications -->
+    <div id="toast-container" class="fixed bottom-4 right-4 z-50 flex flex-col gap-2 pointer-events-none"></div>
+
+    <script src="assets/js/script.js"></script>
+    <script>
+        checkAuth();
+
+        async function handlePropertySearch(event) {
+            event.preventDefault();
+            const btnText = document.getElementById('p-btn-text');
+            const btnLoader = document.getElementById('p-btn-loader');
+            const resultsArea = document.getElementById('resultsArea');
+            const deedInput = document.getElementById('deedNo');
+            
+            if(!deedInput.value.trim()) {
+                showToast('Please enter a deed number.', 'error');
+                return;
+            }
+
+            btnText.classList.add('hidden');
+            btnLoader.classList.remove('hidden');
+            resultsArea.classList.add('hidden', 'opacity-0', 'translate-y-10');
+
+            // Simulate Network / Registry Lookup
+            await simulateDelay(2200);
+            
+            btnText.classList.remove('hidden');
+            btnLoader.classList.add('hidden');
+
+            const val = deedInput.value;
+            
+            if (val.includes('FAKE')) {
+                showToast('WARNING: Invalid or Fake Document number.', 'error');
+            } else {
+                showToast('Land Registry extract completed.', 'success');
+                resultsArea.classList.remove('hidden');
+                setTimeout(() => {
+                    resultsArea.classList.remove('opacity-0', 'translate-y-10');
+                }, 50);
+            }
+        }
+    </script>
+</body>
+</html>
